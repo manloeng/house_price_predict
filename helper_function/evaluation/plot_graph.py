@@ -130,7 +130,8 @@ def plot_time_series(timesteps, values, format=".", start=0, end=None, label=Non
     ax.xaxis.set_major_locator(plt.AutoLocator())
     plt.plot(timesteps[start:end], values[start:end], format, label=label)
     plt.xlabel("Time")
-    plt.ylabel("BTC Price")
+    plt.ylabel("Sold House Price")
+    ax.set_ylim(ymin=0)
     if label:
         plt.legend(fontsize=14)  # make label bigger
     plt.grid(True)
