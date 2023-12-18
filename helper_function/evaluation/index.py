@@ -20,5 +20,6 @@ def evaluate(model_location, test_windows, test_labels):
         y_true=tf.squeeze(test_labels),
         y_pred=model_preds
     )
+
     print(f"results:{model_results}")
-    return model_results
+    return model_results, model_preds

@@ -22,9 +22,6 @@ def get_manchester_house_price_prices():
     filter_df = filter_df.loc[df.Region_Name == "Greater Manchester"]
     filter_df.dropna()
 
-    print("-------------")
-    print(filter_df.columns, "df")
-    print("-------------")
     return filter_df
 
 

@@ -1,7 +1,5 @@
 import numpy as np
 
-from house_price_per_day.utils.index import get_manchester_house_price_prices
-
 
 def get_labelled_windows(x, horizon=1):
     """
@@ -49,8 +47,7 @@ def make_train_test_splits(windows, labels, test_split=0.2):
     return train_windows, test_windows, train_labels, test_labels
 
 
-def train_test_data(window_size=7, horizon=1):
-    house_prices = get_manchester_house_price_prices()
+def train_test_data(house_prices, window_size=7, horizon=1):
     average_detach_prices = house_prices["Detached_Average_Price"].to_numpy()
 
     full_windows, full_labels = make_windows(average_detach_prices, window_size, horizon)
