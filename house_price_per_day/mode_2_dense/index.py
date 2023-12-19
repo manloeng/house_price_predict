@@ -9,15 +9,15 @@ from helper_function.evaluation.index import evaluate
 from helper_function.evaluation.plot_graph import plot_time_series
 
 HORIZON = 1  # predict next 1 day
-WINDOW_SIZE = 7  # use the past week of house price data to make the prediction
+WINDOW_SIZE = 30  # use the past month of house price data to make the prediction
 
 
 def main():
     house_prices = get_manchester_house_price_prices()
 
-    model_name = 'model_1_dense'
+    model_name = 'model_2_dense'
     train_windows, test_windows, train_labels, test_labels = train_test_data(house_prices, WINDOW_SIZE, HORIZON)
-    # train_model_1(model_name, train_windows, test_windows, train_labels, test_labels)
+    train_model_2(model_name, train_windows, test_windows, train_labels, test_labels)
     model_results, model_preds = evaluate(f"model_experiments/{model_name}", test_windows, test_labels)
 
     print("---------------------------")
@@ -43,22 +43,30 @@ def main():
     print("complete!")
 
 
-def train_model_1(model_name, train_windows, test_windows, train_labels, test_labels):
+def train_model_2(model_name, train_windows, test_windows, train_labels, test_labels):
     # Set random seed for as reproducible results as possible
     tf.random.set_seed(42)
 
     # 1. Construct model
-    model_1 = tf.keras.Sequential([
-        layers.Dense(128, activation="relu"),
-        layers.Dense(HORIZON, activation="linear")  # linear activation is the same as having no activation
-    ], name=model_name)  # name our model so we can save it
+    # model_2 = tf.keras.Sequential([
+    #     layers.Dense(128, activation="relu"),
+    #     layers.Dense(HORIZON, activation="linear")  # linear activation is the same as having no activation
+    # ], name=model_name)  # name our model so we can save it
+
+    # 1. Construct model using inputs
+    inputs = tf.keras.Input(shape=(WINDOW_SIZE))
+    x = layers.Dense(128, activation="relu")(inputs)
+    outputs = layers.Dense(HORIZON, activation="linear")(x)
+    model_2 = tf.keras.Model(inputs=inputs, outputs=outputs, name=model_name)
 
     # 2. Compile
-    compile_model(model_1)
+    compile_model(model_2)
 
     # 3. Fit the model
-    fit_model(model_1, train_windows, train_labels, test_windows, test_labels)
-    print(f"evaluate model: {model_1.evaluate(test_windows, test_labels)}")
+    fit_model(model_2, train_windows, train_labels, test_windows, test_labels)
+    print(f"evaluate model: {model_2.evaluate(test_windows, test_labels)}")
+
+    print(model_2.summary())
 
 
 main()
