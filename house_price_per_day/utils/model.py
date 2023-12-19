@@ -1,5 +1,5 @@
 import tensorflow as tf
-from helper_function.tensorlfow_methods.index import create_model_checkpoint
+from helper_function.tensorlfow_methods.index import create_model_checkpoint, create_tensorboard_callback
 
 
 # generic params used to compile model
@@ -20,5 +20,6 @@ def fit_model(model, train_windows, train_labels, test_windows, test_labels):
         verbose=1,
         batch_size=128,
         validation_data=(test_windows, test_labels),
-        callbacks=[create_model_checkpoint(model_name=model.name)]
+        callbacks=[create_model_checkpoint(model_name=model.name),
+                   create_tensorboard_callback('tensorboard', model.name)]
     )

@@ -17,7 +17,7 @@ def main():
 
     model_name = 'model_1_dense'
     train_windows, test_windows, train_labels, test_labels = train_test_data(house_prices, WINDOW_SIZE, HORIZON)
-    # train_model_1(model_name, train_windows, test_windows, train_labels, test_labels)
+    train_model_1(model_name, train_windows, test_windows, train_labels, test_labels)
     model_results, model_preds = evaluate(f"model_experiments/{model_name}", test_windows, test_labels)
 
     print("---------------------------")
